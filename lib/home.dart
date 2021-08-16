@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:render_object/comment.dart';
+import 'package:render_object/high_comment.dart';
 import 'package:render_object/process_bar.dart';
 
 class HomePage extends StatelessWidget {
@@ -47,7 +48,7 @@ class HomePage extends StatelessWidget {
         child: ListView.builder(
             itemCount: 20,
             itemBuilder: (ctx, index) {
-              return Comment(
+              return HighComment(
                 avatar: ClipRRect(
                   borderRadius: BorderRadius.circular(32),
                   child: Image.network(
@@ -56,9 +57,9 @@ class HomePage extends StatelessWidget {
                     height: 32,
                   ),
                 ),
-                shouldDrawBottomLine: index == 19 ? false : true,
-                shouldDrawTopLine: index == 0 ? false : true,
-                child: Column(
+                // shouldDrawBottomLine: index == 19 ? false : true,
+                // shouldDrawTopLine: index == 0 ? false : true,
+                comment: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
