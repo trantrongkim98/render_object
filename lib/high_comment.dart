@@ -12,6 +12,7 @@ class HighComment extends RenderObjectWidget {
   final bool isParentComment;
 
   HighComment({
+    Key? key,
     this.avatar = const SizedBox(),
     this.comment = const SizedBox(),
     this.actions = const SizedBox(),
@@ -19,7 +20,7 @@ class HighComment extends RenderObjectWidget {
     this.shouldDrawBottomLine = false,
     this.shouldDrawTopLine = false,
     this.isParentComment = true,
-  });
+  }) : super(key: key);
 
   @override
   RenderObjectElement createElement() {
@@ -28,7 +29,6 @@ class HighComment extends RenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    context as _HighCommentElement;
     return HighCommentBox()
       ..isParentComment = isParentComment
       ..shouldDrawBottomLine = shouldDrawBottomLine

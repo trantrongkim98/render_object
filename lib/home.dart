@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                 avatar: ClipRRect(
                   borderRadius: BorderRadius.circular(32),
                   child: Image.network(
-                    'https://scontent.fsgn4-1.fna.fbcdn.net/v/t1.6435-9/142432028_1736925749810194_5366117611380784464_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=ZLPTusW5vRQAX_A3jCs&_nc_ht=scontent.fsgn4-1.fna&oh=a7933121abb56f940a850425ddb35c6f&oe=613E5386',
+                    'https://scontent.fsgn5-14.fna.fbcdn.net/v/t1.6435-9/142432028_1736925749810194_5366117611380784464_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=I3EpO5KGzJEAX90L1UV&_nc_ht=scontent.fsgn5-14.fna&oh=00_AT8i4UpqrAf1SmLwdq9UNvcAj84XjsAL1QlCp23xSCRXUw&oe=62377F06',
                     width: 32,
                     height: 32,
                   ),
