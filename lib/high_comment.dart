@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -241,8 +243,9 @@ class HighCommentBox extends RenderBox {
       _avatar!.layout(
           BoxConstraints(
             maxWidth: 32,
+            maxHeight: 32
           ),
-          parentUsesSize: true);
+          parentUsesSize: false);
     }
 
     if (_comment != null) {
@@ -275,6 +278,7 @@ class HighCommentBox extends RenderBox {
     Offset actionOffset = offset;
     if (_avatar != null) {
       context.paintChild(_avatar!, offset.translate(16 + translate, 18));
+
     }
 
     if (_comment != null) {
@@ -291,57 +295,62 @@ class HighCommentBox extends RenderBox {
       ..color = Color(0xFFE2E7ED)
       ..strokeWidth = 1
       ..isAntiAlias = true;
+
     canvas.save();
-    if (isParentComment) {
+    try{
+      if (isParentComment) {
+        if (_avatar == null && _shouldDrawTopLine && _shouldDrawBottomLine) {
+          final o = offset.translate(30, 0);
+          canvas.drawLine(o, o.translate(0, size.height), paint);
+        } else {
+          if (_shouldDrawTopLine && _avatar != null) {
+            final s = _avatar!.size;
+            canvas.drawLine(offset.translate(s.width / 2 + 16, 0),
+                offset.translate(s.width / 2 + 16, 13), paint);
+          }
+          if (_shouldDrawBottomLine && _avatar != null && _comment != null) {
+            final s = _avatar!.size;
+
+            canvas.drawLine(offset.translate(s.width / 2 + 16, s.height + 26),
+                offset.translate(s.width / 2 + 16, size.height), paint);
+          }
+        }
+      } else {
+        if (_shouldDrawTopLine || _shouldDrawBottomLine && !isParentComment) {
+          final o = offset.translate(32, 0);
+          canvas.drawLine(o, o.translate(0, size.height), paint);
+        }
+      }
+      double translate = isParentComment ? 0 : 44;
       if (_avatar == null && _shouldDrawTopLine && _shouldDrawBottomLine) {
-        final o = offset.translate(30, 0);
+        final o = offset.translate(30 + translate, 0);
         canvas.drawLine(o, o.translate(0, size.height), paint);
       } else {
         if (_shouldDrawTopLine && _avatar != null) {
           final s = _avatar!.size;
-          canvas.drawLine(offset.translate(s.width / 2 + 16, 0),
-              offset.translate(s.width / 2 + 16, 13), paint);
+          canvas.drawLine(offset.translate(s.width / 2 + 16 + translate, 0),
+              offset.translate(s.width / 2 + 16 + translate, 13), paint);
         }
         if (_shouldDrawBottomLine && _avatar != null && _comment != null) {
           final s = _avatar!.size;
 
-          canvas.drawLine(offset.translate(s.width / 2 + 16, s.height + 26),
-              offset.translate(s.width / 2 + 16, size.height), paint);
+          canvas.drawLine(
+              offset.translate(s.width / 2 + 16 + translate, s.height + 26),
+              offset.translate(s.width / 2 + 16 + translate, size.height),
+              paint);
         }
       }
-    } else {
-      if (_shouldDrawTopLine || _shouldDrawBottomLine && !isParentComment) {
-        final o = offset.translate(32, 0);
-        canvas.drawLine(o, o.translate(0, size.height), paint);
-      }
+    }finally{
+      canvas.restore();
     }
-    double translate = isParentComment ? 0 : 44;
-    if (_avatar == null && _shouldDrawTopLine && _shouldDrawBottomLine) {
-      final o = offset.translate(30 + translate, 0);
-      canvas.drawLine(o, o.translate(0, size.height), paint);
-    } else {
-      if (_shouldDrawTopLine && _avatar != null) {
-        final s = _avatar!.size;
-        canvas.drawLine(offset.translate(s.width / 2 + 16 + translate, 0),
-            offset.translate(s.width / 2 + 16 + translate, 13), paint);
-      }
-      if (_shouldDrawBottomLine && _avatar != null && _comment != null) {
-        final s = _avatar!.size;
 
-        canvas.drawLine(
-            offset.translate(s.width / 2 + 16 + translate, s.height + 26),
-            offset.translate(s.width / 2 + 16 + translate, size.height),
-            paint);
-      }
-    }
-    canvas.restore();
   }
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    final canvas = context.canvas;
+
     _paintChild(context, offset);
-    _paintLine(canvas, offset);
+    _paintLine(context.canvas, offset);
   }
 
   @override
